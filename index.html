@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GovFactor | Strategic Advisory</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0a1628;
+            --accent: #c9a961;
+            --text: #d4d8e1;
+            --text-dim: #8891a8;
+            --surface: #131b2e;
+            --border: rgba(201, 169, 97, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.03;
+            z-index: 1000;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(to bottom, var(--primary) 0%, transparent 100%);
+            animation: fadeInDown 1s ease;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(201, 169, 97, 0.08) 0%, transparent 70%);
+            animation: pulse 20s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(5deg); }
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            position: relative;
+            z-index: 2;
+            animation: fadeInUp 1.2s ease 0.3s both;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            color: var(--text);
+            letter-spacing: -0.02em;
+        }
+
+        .hero h1 .accent {
+            color: var(--accent);
+            font-style: italic;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: var(--text-dim);
+            max-width: 600px;
+            line-height: 1.8;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1.2s ease 0.6s both;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 4rem;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            animation: fadeInUp 1.2s ease 0.9s both;
+        }
+
+        .hero-meta span {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .hero-meta span::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1rem;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        section {
+            padding: 8rem 5%;
+            position: relative;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 600;
+            margin-bottom: 3rem;
+            line-height: 1.2;
+        }
+
+        .capabilities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .capability-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 3rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .capability-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent) 0%, transparent 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .capability-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .capability-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .capability-number {
+            font-size: 0.75rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.2em;
+        }
+
+        .capability-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .capability-card p {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        .expertise-section {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .expertise-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .expertise-item {
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .expertise-item h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: var(--accent);
+        }
+
+        .expertise-item p {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 10rem 5%;
+            position: relative;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 150px;
+            background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            margin-bottom: 2rem;
+            line-height: 1.3;
+        }
+
+        .cta-content p {
+            color: var(--text-dim);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            line-height: 1.8;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            font-weight: 400;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: var(--accent);
+            transition: width 0.4s ease;
+            z-index: -1;
+        }
+
+        .cta-button:hover::before {
+            width: 100%;
+        }
+
+        .cta-button:hover {
+            color: var(--primary);
+        }
+
+        footer {
+            padding: 4rem 5%;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1.5rem 5%;
+            }
+
+            .nav-links {
+                gap: 1.5rem;
+            }
+
+            .nav-links a {
+                font-size: 0.75rem;
+            }
+
+            .hero-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .capabilities-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .expertise-list {
+                grid-template-columns: 1fr;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 2rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grain"></div>
+    
+    <nav>
+        <div class="logo">GovFactor</div>
+        <ul class="nav-links">
+            <li><a href="#capabilities">Capabilities</a></li>
+            <li><a href="#expertise">Expertise</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Strategic Advisory<br>for <span class="accent">Complex</span> Landscapes</h1>
+            <p class="hero-subtitle">
+                We deliver specialized insights at the intersection of technology, regulation, and global markets. 
+                Trusted by leading institutions navigating uncertainty.
+            </p>
+            <div class="hero-meta">
+                <span>New York</span>
+                <span>Est. 2023</span>
+                <span>Global Reach</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="capabilities">
+        <div class="section-label">What We Do</div>
+        <h2 class="section-title">Capabilities</h2>
+        
+        <div class="capabilities-grid">
+            <div class="capability-card">
+                <div class="capability-number">01</div>
+                <h3>Predictive Intelligence</h3>
+                <p>Advanced modeling and forecasting capabilities leveraging proprietary methodologies to anticipate regulatory and market shifts.</p>
+            </div>
+            
+            <div class="capability-card">
+                <div class="capability-number">02</div>
+                <h3>Data Infrastructure</h3>
+                <p>Comprehensive pipeline architecture designed to synthesize complex information flows across multiple jurisdictions and sectors.</p>
+            </div>
+            
+            <div class="capability-card">
+                <div class="capability-number">03</div>
+                <h3>Strategic Advisory</h3>
+                <p>High-touch consulting services informed by deep expertise in governmental affairs across key markets and regulatory domains.</p>
+            </div>
+            
+            <div class="capability-card">
+                <div class="capability-number">04</div>
+                <h3>Technical Solutions</h3>
+                <p>Custom application development and intelligent systems tailored to unique operational requirements and strategic objectives.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="expertise-section" id="expertise">
+        <div class="section-label">Our Focus</div>
+        <h2 class="section-title">Areas of Expertise</h2>
+        
+        <div class="expertise-list">
+            <div class="expertise-item">
+                <h4>Regulatory Analysis</h4>
+                <p>Navigating complex compliance landscapes and policy developments</p>
+            </div>
+            
+            <div class="expertise-item">
+                <h4>Cross-Border Strategy</h4>
+                <p>Specialized insights across U.S. and East Asian markets</p>
+            </div>
+            
+            <div class="expertise-item">
+                <h4>Financial Markets</h4>
+                <p>Intelligence services for institutional investors and capital allocators</p>
+            </div>
+            
+            <div class="expertise-item">
+                <h4>Technology Integration</h4>
+                <p>AI-enabled solutions for decision-making and operational efficiency</p>
+            </div>
+            
+            <div class="expertise-item">
+                <h4>Government Affairs</h4>
+                <p>Strategic positioning within evolving policy frameworks</p>
+            </div>
+            
+            <div class="expertise-item">
+                <h4>Sector Intelligence</h4>
+                <p>Deep domain expertise across telecommunications, pharmaceuticals, and technology</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section" id="contact">
+        <div class="cta-content">
+            <h2>Discretion. Insight. Results.</h2>
+            <p>Our work operates at the highest levels of confidence. Select partnerships only.</p>
+            <a href="mailto:inquiries@govfactor.com" class="cta-button">Initiate Discussion</a>
+        </div>
+    </section>
+
+    <footer>
+        <div>&copy; 2024 GovFactor Consulting. New York, NY.</div>
+        <div class="footer-links">
+            <a href="#privacy">Privacy</a>
+            <a href="#terms">Terms</a>
+            <a href="mailto:inquiries@govfactor.com">Contact</a>
+        </div>
+    </footer>
+</body>
+</html>
