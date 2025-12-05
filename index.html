@@ -11,7 +11,7 @@
         :root {
             --primary: #1a1a1a;
             --accent: #ff3b30;
-            --accent-green: #00ff41;
+            --accent-green: #00d936;
             --text: #d4d8e1;
             --text-dim: #8891a8;
             --surface: #242424;
@@ -191,12 +191,12 @@
         }
 
         .hero-title-normal {
-            font-weight: 300;
+            font-weight: 200;
         }
 
         .hero h1 .accent {
             color: var(--accent-green);
-            font-style: italic;
+            font-style: normal;
         }
 
         .hero-subtitle {
@@ -225,14 +225,14 @@
         }
 
         .hero-meta span::before {
-            content: '✓';
+            content: '';
             position: absolute;
             left: 0;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--accent);
-            font-size: 1rem;
-            font-weight: bold;
+            width: 1rem;
+            height: 1px;
+            background: var(--accent);
         }
 
         section {
@@ -538,9 +538,9 @@
                 Trusted by leading institutions navigating uncertainty.
             </p>
             <div class="hero-meta">
-                <span>New York</span>
-                <span>Est. 2023</span>
-                <span>Global Reach</span>
+                <span>Government</span>
+                <span>Enterprise</span>
+                <span>Technology</span>
             </div>
         </div>
     </section>
